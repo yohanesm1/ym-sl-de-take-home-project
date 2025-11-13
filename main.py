@@ -30,54 +30,18 @@ print("Step 3: TRANSFORM - Creating analytical tables")
 print("="*70)
 
 # Run collision transformations
-print("\n[1/3] Running collision transformations...")
+print("\nRunning collision transformations...")
 with open("transform/transform_collisions.sql") as f:
     sql = f.read()
 with engine.begin() as conn:
     conn.execute(text(sql))
-print("✅ Collision tables created")
+print("Collision tables created")
 
-# Run vehicle transformations
-print("\n[2/3] Running vehicle transformations...")
-with open("transform/transform_vehicles.sql") as f:
-    sql = f.read()
-with engine.begin() as conn:
-    conn.execute(text(sql))
-print("✅ Vehicle tables created")
 
-# Run person transformations
-print("\n[3/3] Running person/safety transformations...")
-with open("transform/transform_persons.sql") as f:
-    sql = f.read()
-with engine.begin() as conn:
-    conn.execute(text(sql))
-print("✅ Person/safety tables created")
 
-# Step 4: Summary
-print("\n" + "="*70)
-print("Step 4: SUMMARY - Counting analytical tables")
-print("="*70)
-
-with engine.connect() as conn:
-    # Get all tables
-    tables_query = text("""
-        SELECT table_name
-        FROM information_schema.tables
-        WHERE table_schema = 'public'
-            AND table_name NOT LIKE 'raw_%'
-        ORDER BY table_name
-    """)
-    tables = pd.read_sql(tables_query, conn)
-
-    print(f"\nCreated {len(tables)} analytical tables:")
-    for idx, row in tables.iterrows():
-        table_name = row['table_name']
-        count_query = text(f"SELECT COUNT(*) as count FROM {table_name}")
-        result = conn.execute(count_query).fetchone()
-        print(f"  • {table_name}: {result[0]:,} rows")
 
 print("\n" + "="*70)
-print("✅ ELT PIPELINE COMPLETED SUCCESSFULLY!")
+print("ELT PIPELINE COMPLETED SUCCESSFULLY!")
 print("="*70)
 print("\nNext steps:")
 print("  • Run: jupyter notebook analyze_collisions.ipynb")

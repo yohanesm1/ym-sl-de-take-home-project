@@ -21,7 +21,7 @@ We are compiling a report of the motor vehicle collisions from 2024 and trying t
 3. Transform the data into analytical tables
 4. Directly query transforms from a Jupyter notebook and display the data in a meaningful way. You can use the notebook provided as a blueprint, or you can choose to display information you find relevant.
 
-We have provided starter code. Feel free to use as much or as little as you would like. If you decide to use different technologies than what is provided please leave detailed instructions on how to run your project in a README during submission
+**We have provided starter code. Feel free to use as much or as little as you would like. If you decide to use different technologies than what is provided please leave detailed instructions on how to run your project in a README during submission**
 
 
 ## What we are looking for

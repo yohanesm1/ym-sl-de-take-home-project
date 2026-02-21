@@ -1,3 +1,4 @@
+import sys
 import subprocess
 import os
 import pandas as pd
@@ -16,13 +17,13 @@ engine = create_engine(POSTGRES_URL)
 print("\n" + "="*70)
 print("Step 1: EXTRACT - Fetching data from NYC Open Data API")
 print("="*70)
-subprocess.run(["python", "extract/fetch_collisions.py"], check=True)
+subprocess.run([sys.executable, "extract/fetch_collisions.py"], check=True)
 
 # Step 2: Load
 print("\n" + "="*70)
 print("Step 2: LOAD - Loading raw data into PostgreSQL")
 print("="*70)
-subprocess.run(["python", "load/load_to_postgres.py"], check=True)
+subprocess.run([sys.executable, "load/load_to_postgres.py"], check=True)
 
 # Step 3: Transform
 print("\n" + "="*70)
@@ -33,8 +34,13 @@ print("="*70)
 print("\nRunning collision transformations...")
 with open("transform/transform_collisions.sql") as f:
     sql = f.read()
+
+statements = [s.strip() for s in sql.split(";") if s.strip()]
+
 with engine.begin() as conn:
-    conn.execute(text(sql))
+    for stmt in statements:
+        conn.execute(text(stmt))
+
 print("Collision tables created")
 
 

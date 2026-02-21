@@ -1,108 +1,63 @@
-# SL/VF Data Engineer Technical Take Home
+# NYC Motor Vehicle Collision ELT Pipeline
 
-> Build is a mini ELT pipeline that extracts recent NYC traffic collision data, loads it into a database, transforms it into an analytical tables, and display the information in a meaningful way. 
+This project builds a mini ELT pipeline using NYC Open Data Motor Vehicle Collision records. The pipeline extracts raw collision data from the NYC Open Data API, loads it into PostgreSQL, transforms it into analytics-ready tables, and explores insights through a Jupyter notebook.
 
-- [Evaluation](#evaluation)
-- [What we are looking for](#what-we-are-looking-for)
-- [Submitting your code](#submitting-your-code)
-- [Questions or Concerns](#questions-or-concerns)
-- [Running the code](#running-the-code)
+The goal of the project is not just correctness, but to demonstrate how I think about data modeling, transformations, and analytical usability.
 
+---
 
-## Evaluation
+## Tech Stack
 
-We are compiling a report of the motor vehicle collisions from 2024 and trying to determine what contributing factors lead to collisions, injuries, and fatalities. We have started the code for you already, but its up to you to finish the code, transform and model the data, and then use the data to make a report.  
+- Python (requests, pandas, sqlalchemy)
+- PostgreSQL
+- SQL (transformations)
+- Jupyter Notebook (analysis and visualization)
+- NYC Open Data API
 
-1. Extracts collision data from NYC Open Data API for 2024 and save raw data to a .csv file 
-    - [Collision Crashes](https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95)
-    - [Collision Vehicles](https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Vehicles/bm4k-52h4/about_data)
-    - [Collision Persons](https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Person/f55k-p6yu/about_data)
-2. Loads the raw data from previously saved .csv files into a local Postgres database 
-3. Transform the data into analytical tables
-4. Directly query transforms from a Jupyter notebook and display the data in a meaningful way. You can use the notebook provided as a blueprint, or you can choose to display information you find relevant.
+---
 
-**We have provided starter code. Feel free to use as much or as little as you would like. If you decide to use different technologies than what is provided please leave detailed instructions on how to run your project in a README during submission**
+Setup Instructions:
 
+1. Clone the repository
 
-## What we are looking for
+git clone <repo-url>
+cd ym-sl-de-take-home-project
 
-- Does it work?
-- Is the code clean and accessible to others?
-- Decision on data modeling and transformation
-    - We want to be able to understand your thought process 
-    - How did you handle cleaning the data
-- SQL and python knowlege 
+2. Create and activate a virtual environment
 
+python -m venv .venv
+source .venv/bin/activate
 
-## Time Limit
+3. Install dependencies
 
-The purpose of the test is not to measure the speed of code creation. Please try to finish within 5 days of being sent the code test, but extra allowances are fine and will not be strictly penalized.
+pip install -r requirements.txt
 
-## Submitting Your Code
+4. Set up PostgreSQL
 
-The preferred way to submit your code is to create a fork of this repo, push your changes to the forked repo, and then either:
-- open a pull request against the original repo from your forked repo
-- grant access to your forked repo to erhowell, so that we can access the code there.
-Alternatively, you may submit the code in the form of a zip file and send it to erhowell@swingleft.org. 
+createdb nyc_collisions
 
-Please be sure to include a README in your submission with full details on how to set up and run your code as well as answer the following questions:
-- Roughly how long did this project take you
-- How you felt about this project, and what issues did you face, if any.  
+Create a .env file in the project root:
 
-Speed is not what we are evaluating; we are evaluating the process as a whole and the effort it takes to complete it.
+POSTGRES_URL=postgresql://<user>@localhost:5432/nyc_collisions
+Running the Pipeline
 
+# Run the full ELT pipeline:
 
-## Questions or Concerns
-
-If you have any questions at all, feel free to reach out to [erhowell@swingleft.org](mailto:erhowell@swingleft.org)
-
-## Running The Code
-
-[If you choose to clone this repo and work from the hello-world sample, please use the directions below. If you implement another solution using a different language or framework, please update these directions to reflect your code.]
-
-## Setup
-This project requires python. Everyone has their preferred python setup. If you don't, try [pyenv](https://github.com/pyenv/pyenv). If you're also looking for a way to manage virtual python environments, consider [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv). Regardless, these instructions assume you have a working python environment.
-
-# Set up virtual environment
-
-```bash
-cd /where/you/like/source/code
-# Check to make sure the version of python is correct.
-# The starter code is utilizing Python 3.11 to match the environment we are currently on
-python -V
-
-python -m venv <env-name>
-cd <env-name>
-git clone <github-url>
-cd <env-name>
-
-Activate your virtualenv so that pip packages are installed
-# locally for this project instead of globally.
-source ../bin/activate
-
-pip3 install -r requirements.txt
-
-# Installed kernelspec sl-data-eng-take-home
-python -m ipykernel install --user --name=<env-name> --display-name "Python (NYC Collisions)"
-
-
-```
-# Create your postgres DB.
-
-```bash
-# Set up the initial state of your DB.
-# You can change the name of the db from nyc_collisions to anything you'd like. 
-# Just be sure to update the postgres url in the .env 
-
-createdb <nyc_collisions>
-```
-
-### Running the server
-
-```bash
-# Make sure your environment is running correctly
 python main.py
 
-#working with the notebook
-jupyter notebook <path_to_notebook>
-```
+This will:
+
+Extract recent NYC collision data from the API
+
+Load raw data into PostgreSQL (raw schema)
+
+Transform data into analytics tables (analytics schema)
+
+
+Roughly How Long Did This Project Take?
+
+2.5 hours total.
+
+How I Felt About the Project & Challenges Faced
+
+The project was fine to me clear request to pull the data and be able to show tables and visualizations, noticed as I built I had to go back and add to more to previous step as certain data became more relevant.
